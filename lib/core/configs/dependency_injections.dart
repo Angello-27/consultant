@@ -4,6 +4,7 @@ import '../../data/repositories/query_repository.dart';
 import '../../domain/use_cases/query_use_case.dart';
 import '../../presentation/providers/query_provider.dart';
 import 'app_config.dart';
+import '../../core/utils/tts_service.dart'; // Asegúrate de que la ruta sea la correcta
 
 final instance = GetIt.instance;
 
@@ -21,9 +22,16 @@ void setupDependencies() {
     () => QueryUseCase(repository: instance<QueryRepository>()),
   );
 
+  // Core / Utilidades: Inyectar el TtsService e inicializarlo
+  instance.registerLazySingleton<TtsService>(() => TtsService()..initTts());
+
   // Presentation Layer
-  // Registro del QueryProvider para ser utilizado por Provider en la UI.
+  // Registro del QueryProvider para ser utilizado por Provider en la UI,
+  // inyectando tanto el QueryUseCase como el TtsService.
   instance.registerFactory(
-    () => QueryProvider(queryUseCase: instance<QueryUseCase>()),
+    () => QueryProvider(
+      queryUseCase: instance<QueryUseCase>(),
+      ttsService: instance<TtsService>(),
+    ),
   );
 }

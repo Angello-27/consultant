@@ -1,13 +1,17 @@
-// lib/presentation/widgets/atoms/chat_bubble.dart
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:consultant/domain/entities/document.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../../core/utils/tts_service.dart';
 
-class ChatBubble extends StatelessWidget {
+class ChatBubble extends StatefulWidget {
   final String message;
   final bool isUser;
-  final bool isError; // Nuevo campo para distinguir errores
+  final bool isError;
   final List<Document>? references;
   final VoidCallback? onViewReferences;
+  final bool autoPlay;
 
   const ChatBubble({
     super.key,
@@ -16,17 +20,39 @@ class ChatBubble extends StatelessWidget {
     this.isError = false,
     this.references,
     this.onViewReferences,
+    this.autoPlay = false,
   });
 
   @override
+  _ChatBubbleState createState() => _ChatBubbleState();
+}
+
+class _ChatBubbleState extends State<ChatBubble> {
+  bool _hasPlayed = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (!widget.isUser && widget.autoPlay && !_hasPlayed) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final ttsService = Provider.of<TtsService>(context, listen: false);
+        ttsService.speak(widget.message);
+        setState(() {
+          _hasPlayed = true;
+        });
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // Si es un error, usamos un color distinto, por ejemplo rojo pálido
     final bubbleColor =
-        isError
+        widget.isError
             ? Colors.red[100]
-            : (isUser ? Colors.blue[100] : Colors.grey[300]);
-    final align = isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start;
-    final textAlign = isUser ? TextAlign.right : TextAlign.left;
+            : (widget.isUser ? Colors.blue[100] : Colors.grey[300]);
+    final align =
+        widget.isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start;
+    final textAlign = widget.isUser ? TextAlign.right : TextAlign.left;
 
     return Column(
       crossAxisAlignment: align,
@@ -39,20 +65,20 @@ class ChatBubble extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
           child: Text(
-            message,
+            widget.message,
             textAlign: textAlign,
             style: TextStyle(
               fontSize: 16,
-              color: isError ? Colors.red : Colors.black,
+              color: widget.isError ? Colors.red : Colors.black,
             ),
           ),
         ),
-        if (!isUser &&
-            references != null &&
-            references!.isNotEmpty &&
-            onViewReferences != null)
+        if (!widget.isUser &&
+            widget.references != null &&
+            widget.references!.isNotEmpty &&
+            widget.onViewReferences != null)
           TextButton(
-            onPressed: onViewReferences,
+            onPressed: widget.onViewReferences,
             child: const Text("Ver Referencias"),
           ),
       ],

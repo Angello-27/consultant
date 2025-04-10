@@ -1,3 +1,4 @@
+import 'package:consultant/core/utils/tts_service.dart';
 import 'package:flutter/material.dart';
 import '../../domain/use_cases/query_use_case.dart';
 import '../../domain/entities/query_response.dart';
@@ -5,6 +6,7 @@ import '../../domain/entities/message.dart';
 
 class QueryProvider extends ChangeNotifier {
   final QueryUseCase queryUseCase;
+  final TtsService ttsService;
 
   bool isLoading = false;
   final List<Message> _messages = [];
@@ -12,7 +14,7 @@ class QueryProvider extends ChangeNotifier {
 
   List<Message> getMessages() => _messages;
 
-  QueryProvider({required this.queryUseCase});
+  QueryProvider({required this.queryUseCase, required this.ttsService});
 
   Future<void> sendQuery(String query) async {
     isLoading = true;

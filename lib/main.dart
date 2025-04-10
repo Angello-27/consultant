@@ -1,4 +1,5 @@
 import 'package:consultant/core/constants/app_text_constants.dart';
+import 'package:consultant/core/utils/tts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'core/configs/dependency_injections.dart' as inject;
@@ -21,6 +22,8 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider<QueryProvider>(
           create: (_) => inject.instance<QueryProvider>(),
         ),
+        // Asegúrate de incluir también un Provider para TtsService, si no está inyectado a través del QueryProvider.
+        Provider<TtsService>(create: (_) => inject.instance<TtsService>()),
       ],
       child: _MaterialApp(),
     );

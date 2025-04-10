@@ -56,13 +56,16 @@ class ConversationView extends StatelessWidget {
             message: message.text,
             isUser: message.isUser,
             references: message.references,
+            autoPlay:
+                !message
+                    .isUser, // Esto hará que se auto-reproduzca para mensajes del asistente.
             onViewReferences:
                 message.references != null && message.references!.isNotEmpty
                     ? () => _showReferences(context, message.references!)
                     : null,
           );
         } else {
-          // Index es igual a messages.length, es decir, el último ítem: muestra el LoadingIndicator.
+          // Muestra el LoadingIndicator al final.
           return const Center(
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 8.0),
