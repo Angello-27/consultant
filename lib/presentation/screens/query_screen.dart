@@ -26,30 +26,65 @@ class QueryScreen extends StatelessWidget {
               isLoading: queryProvider.isLoading,
             ),
           ),
+          // Área de entrada: incluye el campo de texto y botones en una misma fila.
           InputArea(
             controller: _controller,
             onMicPressed: () {
-              // Lanza el modal bottom sheet que contiene el SpeechInputWidget.
+              // Lanza un modal con SpeechInputWidget
               showModalBottomSheet(
                 context: context,
-                isScrollControlled:
-                    true, // Permite ajustar la altura según el contenido.
+                isScrollControlled: true,
                 builder: (context) {
-                  return Container(
-                    padding: const EdgeInsets.all(16.0),
-                    // Ocupa el ancho completo y una altura mínima.
-                    width: MediaQuery.of(context).size.width,
-                    constraints: BoxConstraints(
-                      minHeight: 200, // Ajusta según necesidad.
-                    ),
-                    child: SpeechInputWidget(
-                      onResult: (recognizedText) {
-                        // Actualiza el campo de texto con la transcripción.
-                        _controller.text = recognizedText;
-                        // Cierra el modal luego de capturar la voz.
-                        Navigator.of(context).pop();
-                      },
-                    ),
+                  String recognizedText = "";
+                  return StatefulBuilder(
+                    builder: (BuildContext context, StateSetter setState) {
+                      return Container(
+                        width: MediaQuery.of(context).size.width,
+                        padding: const EdgeInsets.all(16.0),
+                        constraints: const BoxConstraints(minHeight: 200),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SpeechInputWidget(
+                              onResult: (text) {
+                                // Actualizar el estado local del modal para mostrar el texto reconocido.
+                                setState(() {
+                                  recognizedText = text;
+                                });
+                              },
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              recognizedText.isEmpty
+                                  ? "Escuchando..."
+                                  : recognizedText,
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                            const SizedBox(height: 16),
+                            ElevatedButton(
+                              onPressed: () {
+                                // Actualiza el TextEditingController con el texto reconocido.
+                                _controller.text = recognizedText;
+                                // Extrae la consulta y valida que no esté vacía.
+                                final query = recognizedText.trim();
+                                if (query.isNotEmpty) {
+                                  // Envía la consulta usando el QueryProvider.
+                                  Provider.of<QueryProvider>(
+                                    context,
+                                    listen: false,
+                                  ).sendQuery(query);
+                                  // Limpia el controlador para preparar la nueva consulta.
+                                  _controller.clear();
+                                }
+                                // Cierra el modal.
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text("Confirmar"),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   );
                 },
               );
