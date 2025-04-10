@@ -1,18 +1,16 @@
 // lib/presentation/widgets/atoms/speech_input_widget.dart
-// ignore_for_file: avoid_print, use_build_context_synchronously
+// ignore_for_file: avoid_print, use_build_context_synchronously, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class SpeechInputWidget extends StatefulWidget {
-  // Callback para enviar el texto reconocido hacia otro componente (por ejemplo, el InputArea)
   final Function(String) onResult;
 
   const SpeechInputWidget({super.key, required this.onResult});
 
   @override
-  // ignore: library_private_types_in_public_api
   _SpeechInputWidgetState createState() => _SpeechInputWidgetState();
 }
 
@@ -29,7 +27,6 @@ class _SpeechInputWidgetState extends State<SpeechInputWidget> {
   }
 
   Future<void> _initSpeech() async {
-    // Solicitar permiso explícitamente.
     PermissionStatus status = await Permission.microphone.request();
     if (!status.isGranted) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -58,12 +55,9 @@ class _SpeechInputWidgetState extends State<SpeechInputWidget> {
         setState(() {
           _recognizedText = result.recognizedWords;
         });
-        // Envía el texto reconocido hacia el callback para actualizar la consulta.
         widget.onResult(_recognizedText);
       },
-      listenFor: Duration(
-        seconds: 10,
-      ), // Puedes ajustar el tiempo máximo de escucha
+      listenFor: Duration(seconds: 10),
       pauseFor: Duration(seconds: 3),
     );
     setState(() {
@@ -82,7 +76,6 @@ class _SpeechInputWidgetState extends State<SpeechInputWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Muestra el texto reconocido en tiempo real (opcional)
         Text(
           _recognizedText.isEmpty ? "Escuchando..." : _recognizedText,
           style: TextStyle(fontSize: 16),

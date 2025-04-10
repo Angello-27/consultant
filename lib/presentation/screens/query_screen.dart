@@ -5,6 +5,7 @@ import '../providers/query_provider.dart';
 import '../widgets/organisms/conversation_view.dart';
 import '../widgets/organisms/input_area.dart';
 import '../../core/constants/app_text_constants.dart';
+import '../widgets/atoms/speech_input_widget.dart';
 
 class QueryScreen extends StatelessWidget {
   final TextEditingController _controller = TextEditingController();
@@ -25,15 +26,33 @@ class QueryScreen extends StatelessWidget {
               isLoading: queryProvider.isLoading,
             ),
           ),
-          // Aquí se utiliza el InputArea actualizado con ambos botones al mismo nivel.
           InputArea(
             controller: _controller,
             onMicPressed: () {
-              // Aquí invocas la función para activar el speech-to-text.
-              // Por ejemplo, podrías mostrar un diálogo o llamar a un método en un Provider dedicado.
-              // Ejemplo:
-              // Provider.of<SpeechProvider>(context, listen: false).startListening();
-              // O bien, mostrar un widget modal para la captura de voz.
+              // Lanza el modal bottom sheet que contiene el SpeechInputWidget.
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled:
+                    true, // Permite ajustar la altura según el contenido.
+                builder: (context) {
+                  return Container(
+                    padding: const EdgeInsets.all(16.0),
+                    // Ocupa el ancho completo y una altura mínima.
+                    width: MediaQuery.of(context).size.width,
+                    constraints: BoxConstraints(
+                      minHeight: 200, // Ajusta según necesidad.
+                    ),
+                    child: SpeechInputWidget(
+                      onResult: (recognizedText) {
+                        // Actualiza el campo de texto con la transcripción.
+                        _controller.text = recognizedText;
+                        // Cierra el modal luego de capturar la voz.
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  );
+                },
+              );
             },
             onSubmit: () {
               final query = _controller.text.trim();

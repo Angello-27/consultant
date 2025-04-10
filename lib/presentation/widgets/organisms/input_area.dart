@@ -21,7 +21,6 @@ class InputArea extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Row(
         children: [
-          // Campo de texto expandido
           Expanded(
             child: CustomTextField(
               controller: controller,
@@ -29,13 +28,13 @@ class InputArea extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          // Botón para activar el reconocimiento de voz
+          // Botón para activar el reconocimiento de voz.
           IconButton(
             icon: const Icon(Icons.mic, size: 32),
             onPressed: onMicPressed,
           ),
           const SizedBox(width: 8),
-          // Botón para enviar la consulta
+          // Botón para enviar la consulta.
           IconButton(
             icon: const Icon(Icons.send, size: 32),
             onPressed: onSubmit,
