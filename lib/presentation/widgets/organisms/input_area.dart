@@ -1,17 +1,18 @@
 // lib/presentation/widgets/organisms/input_area.dart
 import 'package:flutter/material.dart';
 import '../../widgets/atoms/custom_text_field.dart';
-import '../../widgets/atoms/custom_button.dart';
 import '../../../core/constants/app_text_constants.dart';
 
 class InputArea extends StatelessWidget {
   final TextEditingController controller;
   final VoidCallback onSubmit;
+  final VoidCallback onMicPressed;
 
   const InputArea({
     super.key,
     required this.controller,
     required this.onSubmit,
+    required this.onMicPressed,
   });
 
   @override
@@ -20,6 +21,7 @@ class InputArea extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Row(
         children: [
+          // Campo de texto expandido
           Expanded(
             child: CustomTextField(
               controller: controller,
@@ -27,7 +29,17 @@ class InputArea extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          CustomButton(onPressed: onSubmit, text: AppText.sendButtonText),
+          // Botón para activar el reconocimiento de voz
+          IconButton(
+            icon: const Icon(Icons.mic, size: 32),
+            onPressed: onMicPressed,
+          ),
+          const SizedBox(width: 8),
+          // Botón para enviar la consulta
+          IconButton(
+            icon: const Icon(Icons.send, size: 32),
+            onPressed: onSubmit,
+          ),
         ],
       ),
     );

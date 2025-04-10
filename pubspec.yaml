@@ -39,6 +39,10 @@ dependencies:
   # desde la UI sin depender del BuildContext.
   get_it: ^8.0.3
 
+  # Librería multiplataforma (iOS, Android) para gestionar permisos en tiempo de ejecución.
+  # Permite solicitar permisos, verificar su estado y abrir la configuración de la app para que los usuarios administren dichos permisos.
+  permission_handler: ^12.0.0+1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter # Framework de pruebas para Flutter, usado para escribir y ejecutar tests de la app.
