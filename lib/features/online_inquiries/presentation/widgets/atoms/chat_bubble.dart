@@ -1,6 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
 
-import 'package:consultant/features/online_inquiries/domain/entities/document.dart';
+import 'package:consultant/features/online_inquiries/domain/entities/document_response.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../../shared/utils/tts_service.dart';
@@ -9,7 +9,7 @@ class ChatBubble extends StatefulWidget {
   final String message;
   final bool isUser;
   final bool isError;
-  final List<Document>? references;
+  final List<DocumentResponse>? references;
   final VoidCallback? onViewReferences;
   final bool autoPlay;
 

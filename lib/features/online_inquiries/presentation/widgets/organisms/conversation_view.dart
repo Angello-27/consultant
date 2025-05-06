@@ -1,7 +1,7 @@
 // lib/presentation/widgets/organisms/conversation_view.dart
 import 'package:flutter/material.dart';
-import 'package:consultant/features/online_inquiries/domain/entities/message.dart';
-import 'package:consultant/features/online_inquiries/domain/entities/document.dart';
+import 'package:consultant/features/online_inquiries/presentation/widgets/atoms/message.dart';
+import 'package:consultant/features/online_inquiries/domain/entities/document_response.dart';
 import '../atoms/chat_bubble.dart';
 import '../atoms/loading_indicator.dart';
 
@@ -15,7 +15,10 @@ class ConversationView extends StatelessWidget {
     required this.isLoading,
   });
 
-  void _showReferences(BuildContext context, List<Document> references) {
+  void _showReferences(
+    BuildContext context,
+    List<DocumentResponse> references,
+  ) {
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -27,7 +30,7 @@ class ConversationView extends StatelessWidget {
               final document = references[index];
               return ListTile(
                 title: Text(
-                  document.metadata["source"] ?? "Referencia ${index + 1}",
+                  "", //document.metadata["source"] ?? "Referencia ${index + 1}",
                 ),
                 subtitle: Text(
                   document.pageContent.length > 100
