@@ -1,8 +1,8 @@
 import 'package:get_it/get_it.dart';
 import '../../data/datasources/query_api_client.dart';
 import '../../data/repositories/query_repository.dart';
-import '../../domain/use_cases/query_use_case.dart';
-import '../../presentation/providers/query_provider.dart';
+import '../../features/domain/use_cases/query_use_case.dart';
+import '../../features/presentation/providers/query_provider.dart';
 import 'app_config.dart';
 import '../../core/utils/tts_service.dart'; // Asegúrate de que la ruta sea la correcta
 

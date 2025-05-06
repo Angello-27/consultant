@@ -1,15 +1,10 @@
 import 'document.dart';
 
 class QueryResponse {
-  final String input;
   final String answer;
   final List<Document> context;
 
-  QueryResponse({
-    required this.input,
-    required this.answer,
-    required this.context,
-  });
+  QueryResponse({required this.answer, required this.context});
 
   factory QueryResponse.fromJson(Map<String, dynamic> json) {
     var contextList = <Document>[];
@@ -20,7 +15,6 @@ class QueryResponse {
               .toList();
     }
     return QueryResponse(
-      input: json['input'] as String,
       answer: json['answer'] as String,
       context: contextList,
     );

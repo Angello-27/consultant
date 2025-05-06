@@ -1,7 +1,7 @@
 // lib/presentation/widgets/organisms/input_area.dart
 import 'package:flutter/material.dart';
-import '../../widgets/atoms/custom_text_field.dart';
-import '../../../core/constants/app_text_constants.dart';
+import '../atoms/custom_text_field.dart';
+import '../../../../core/constants/app_text_constants.dart';
 
 class InputArea extends StatelessWidget {
   final TextEditingController controller;

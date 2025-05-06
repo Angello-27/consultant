@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../../domain/entities/query_response.dart';
+import '../../features/domain/entities/query_response.dart';
 
 class QueryApiClient {
   // La URL del servidor se define en core/config.dart
@@ -22,7 +22,7 @@ class QueryApiClient {
         return QueryResponse.fromJson(data['answer']);
       } else if (data['answer'] is String) {
         // Si la API retorna un string plano, se construye la entidad con contexto vacío.
-        return QueryResponse(input: query, answer: data['answer'], context: []);
+        return QueryResponse(answer: data['answer'], context: []);
       } else {
         throw Exception('Formato de respuesta desconocido');
       }

@@ -1,16 +1,17 @@
-import 'package:consultant/core/constants/app_text_constants.dart';
-import 'package:consultant/core/utils/tts_service.dart';
+// lib/main.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'core/configs/dependency_injections.dart' as inject;
-import 'presentation/screens/query_screen.dart';
-import 'presentation/providers/query_provider.dart';
 
+import 'core/configs/app_root.dart';
+import 'core/configs/dependency_injections.dart' as inject;
+
+/// Punto de entrada de la aplicación.
 void main() {
-  inject.setupDependencies(); // Configura la inyección de dependencias.
-  runApp(MainApp());
+  inject.setupDependencies();
+  runApp(const MainApp());
 }
 
+/// Widget principal que envuelve la aplicación en los Providers necesarios.
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
@@ -18,27 +19,9 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        // Usa Provider para inyectar la instancia de QueryProvider registrada en GetIt.
-        ChangeNotifierProvider<QueryProvider>(
-          create: (_) => inject.instance<QueryProvider>(),
-        ),
-        // Asegúrate de incluir también un Provider para TtsService, si no está inyectado a través del QueryProvider.
-        Provider<TtsService>(create: (_) => inject.instance<TtsService>()),
+        // Injector para el QueryProvider, que gestiona las consultas REST.
       ],
-      child: _MaterialApp(),
-    );
-  }
-}
-
-class _MaterialApp extends StatelessWidget {
-  const _MaterialApp();
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: AppText.appTitle,
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: QueryScreen(),
+      child: const AppRoot(),
     );
   }
 }

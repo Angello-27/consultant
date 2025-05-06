@@ -1,3 +1,5 @@
+// lib/core/constants/app_text_constants.dart
+
 class AppText {
   // Títulos y textos generales
   static const String appTitle = 'Asistente Legal de Tránsito';

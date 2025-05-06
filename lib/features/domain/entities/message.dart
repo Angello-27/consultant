@@ -1,4 +1,4 @@
-import 'package:consultant/domain/entities/document.dart';
+import 'package:consultant/features/domain/entities/document.dart';
 
 class Message {
   final String text;

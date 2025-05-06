@@ -1,5 +1,5 @@
-import '../../data/repositories/query_repository.dart';
-import '../../domain/entities/query_response.dart';
+import '../../../data/repositories/query_repository.dart';
+import '../entities/query_response.dart';
 
 class QueryUseCase {
   final QueryRepository repository;
