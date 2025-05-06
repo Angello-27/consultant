@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'core/configs/app_root.dart';
+import 'core/configs/app_providers.dart';
 import 'core/configs/dependency_injections.dart' as inject;
 
 /// Punto de entrada de la aplicación.
@@ -18,9 +19,8 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        // Injector para el QueryProvider, que gestiona las consultas REST.
-      ],
+      // Manejador de inyecciones globales
+      providers: AppProviders.providers,
       child: const AppRoot(),
     );
   }

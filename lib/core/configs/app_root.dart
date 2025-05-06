@@ -1,5 +1,7 @@
 // lib/core/configs/app_root.dart
 import 'package:flutter/material.dart';
+
+import './app_routes.dart';
 import '../constants/app_text_constants.dart';
 import '../constants/app_color_constants.dart';
 
@@ -13,7 +15,8 @@ class AppRoot extends StatelessWidget {
       title: AppText.appTitle,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primaryColor: AppColor.primaryColor),
-      home: Container(), // Pantalla de consulta
+      initialRoute: AppRoutes.initialRoute,
+      routes: AppRoutes.routes,
     );
   }
 }
