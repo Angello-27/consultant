@@ -7,11 +7,10 @@ plugins {
 
 android {
     namespace = "com.topicos.consultant"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = flutter.compileSdkVersion    
 
     // Leer el valor del NDK desde local.properties, si existe, de lo contrario usar el valor por defecto
-    val ndkVersionProp = project.findProperty("ndk.version") as String?
-    ndkVersion = ndkVersionProp ?: flutter.ndkVersion
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

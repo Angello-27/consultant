@@ -1,8 +1,8 @@
 // lib/features/online_inquiries/presentation/providers/provider.dart
+
 import './provider_contract.dart';
 import '../../domain/use_cases/use_case_contract.dart';
-import '../../domain/entities/online_inquiries_response.dart';
-import '../../../../core/constants/app_text_constants.dart';
+import '../../domain/entities/chat_interaction.dart';
 
 // ChangeNotifier que implementa IOnlineInquiriesProviderContract.
 class OnlineInquiriesProvider extends IOnlineInquiriesProviderContract {
@@ -16,32 +16,36 @@ class OnlineInquiriesProvider extends IOnlineInquiriesProviderContract {
   @override
   bool get isLoading => _isLoading;
 
-  String? _error;
+  final List<ChatInteraction> _history = [];
   @override
-  String? get error => _error;
-
-  OnlineInquiriesResponse? _response;
-  @override
-  OnlineInquiriesResponse? get response => _response;
+  List<ChatInteraction> get history => List.unmodifiable(_history);
 
   // Envía la consulta, actualiza el estado y desencadena TTS.
   @override
   Future<void> send(String query) async {
     if (query.trim().isEmpty) {
-      _error = AppText.emptyQueryError;
       notifyListeners();
       return;
     }
 
-    _error = null;
+    // Añade la interacción inicial con solo la pregunta
+    _history.add(ChatInteraction(question: query));
     _isLoading = true;
     notifyListeners();
 
     try {
-      final result = await _useCase.execute(query);
-      _response = result;
+      final response = await _useCase.execute(query);
+      // Completa la interacción con la respuesta
+      _history[_history.length - 1] = ChatInteraction(
+        question: query,
+        response: response,
+      );
     } catch (e) {
-      _error = e.toString();
+      // Completa la interacción con el error
+      _history[_history.length - 1] = ChatInteraction(
+        question: query,
+        error: e.toString(),
+      );
     } finally {
       _isLoading = false;
       notifyListeners();
