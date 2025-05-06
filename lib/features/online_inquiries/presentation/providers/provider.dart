@@ -1,20 +1,31 @@
 // lib/features/online_inquiries/presentation/providers/provider.dart
-
 import './provider_contract.dart';
 import '../../domain/use_cases/use_case_contract.dart';
 import '../../domain/entities/chat_interaction.dart';
+import '../../../../shared/utils/tts_service.dart';
+import '../../../../core/configs/settings_service.dart';
 
 // ChangeNotifier que implementa IOnlineInquiriesProviderContract.
 class OnlineInquiriesProvider extends IOnlineInquiriesProviderContract {
+  final TtsService _ttsService;
+  final SettingsService _settings;
   final IOnlineInquiriesUseCase _useCase;
 
-  OnlineInquiriesProvider({required IOnlineInquiriesUseCase useCase})
-    : _useCase = useCase,
-      super(); // llama al constructor de ChangeNotifier
+  OnlineInquiriesProvider({
+    required IOnlineInquiriesUseCase useCase,
+    required TtsService ttsService,
+    required SettingsService settingsService,
+  }) : _useCase = useCase,
+       _ttsService = ttsService,
+       _settings = settingsService,
+       super(); // llama al constructor de ChangeNotifier
 
   bool _isLoading = false;
   @override
   bool get isLoading => _isLoading;
+
+  @override
+  bool get audioEnabled => _settings.audioEnabled;
 
   final List<ChatInteraction> _history = [];
   @override
@@ -40,6 +51,8 @@ class OnlineInquiriesProvider extends IOnlineInquiriesProviderContract {
         question: query,
         response: response,
       );
+      // Reproducción automática según preferencia
+      playAudio(response.answer);
     } catch (e) {
       // Completa la interacción con el error
       _history[_history.length - 1] = ChatInteraction(
@@ -50,5 +63,26 @@ class OnlineInquiriesProvider extends IOnlineInquiriesProviderContract {
       _isLoading = false;
       notifyListeners();
     }
+  }
+
+  // Reproduce el texto si la preferencia está habilitada.
+  void playAudio(String text) {
+    if (_settings.audioEnabled) {
+      _ttsService.speak(text);
+    }
+  }
+
+  @override
+  void toggleAudio(String text) {
+    if (_settings.audioEnabled) {
+      // Si estaba activo, detenemos la reproducción
+      _ttsService.stop();
+    } else {
+      // Si estaba desactivado, hablamos el texto
+      _ttsService.speak(text);
+    }
+    // Cambiamos la preferencia y notificamos
+    _settings.toggleAudioEnabled();
+    notifyListeners();
   }
 }

@@ -1,3 +1,4 @@
+// lib/shared/utils/tts_service.dart
 import 'package:flutter_tts/flutter_tts.dart';
 
 class TtsService {
@@ -5,8 +6,8 @@ class TtsService {
 
   /// Inicializa los parámetros básicos de TTS.
   Future<void> initTts() async {
-    // Configura el idioma (por ejemplo, español de España)
-    await _flutterTts.setLanguage("es-ES");
+    // Configura el idioma (por ejemplo, español de Bolivia)
+    await _flutterTts.setLanguage("es-BO");
     // Configura la velocidad de habla (valores comunes entre 0.0 y 1.0, por ejemplo 0.5)
     await _flutterTts.setSpeechRate(0.5);
     // Configura el volumen (entre 0.0 y 1.0)

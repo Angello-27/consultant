@@ -31,7 +31,7 @@ class ConversationView extends StatelessWidget {
         final interaction = history[index];
 
         return isAnswer
-            ? _buildAnswerBubble(context, interaction)
+            ? _buildAnswerBubble(context, interaction, provider)
             : _buildQuestionBubble(interaction.question);
       },
     );
@@ -41,7 +41,11 @@ class ConversationView extends StatelessWidget {
     return ChatBubble(text: question, isUser: true);
   }
 
-  Widget _buildAnswerBubble(BuildContext context, ChatInteraction interaction) {
+  Widget _buildAnswerBubble(
+    BuildContext context,
+    ChatInteraction interaction,
+    IOnlineInquiriesProviderContract provider,
+  ) {
     // Error
     if (interaction.error != null) {
       return ChatBubble(text: interaction.error!, isUser: false, isError: true);
@@ -61,14 +65,9 @@ class ConversationView extends StatelessWidget {
       text: response.answer,
       isUser: false,
       // Icono de audio (aparecerá a la derecha del texto).
-      onPlay: () {
-        /*final tts = Provider.of<TtsService>(context, listen: false);
-        tts.speak(response.answer);*/
-      },
+      onPlay: () => provider.toggleAudio(response.answer),
       // Icono de copiar (aparecerá en la fila de abajo).
-      onCopy: () {
-        Clipboard.setData(ClipboardData(text: response.answer));
-      },
+      onCopy: () => Clipboard.setData(ClipboardData(text: response.answer)),
       // Icono de referencias (aparecerá en la fila de abajo).
       onViewReferences:
           response.context.isNotEmpty

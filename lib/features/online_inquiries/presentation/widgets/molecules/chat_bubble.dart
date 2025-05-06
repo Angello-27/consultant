@@ -1,8 +1,10 @@
 // lib/features/online_inquiries/presentation/widgets/molecules/chat_bubble.dart
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../atoms/bubble_icon_button.dart';
 import '../../../domain/entities/document_response.dart';
+import '../../../../../core/configs/settings_service.dart';
 
 typedef VoidDocumentList = void Function(List<DocumentResponse> refs);
 
@@ -67,7 +69,7 @@ class ChatBubble extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildContentRow(),
+            _buildContentRow(context),
             if (_hasBottomActions()) const SizedBox(height: 8),
             if (_hasBottomActions()) _buildActionRow(),
           ],
@@ -76,7 +78,10 @@ class ChatBubble extends StatelessWidget {
     );
   }
 
-  Widget _buildContentRow() {
+  Widget _buildContentRow(BuildContext context) {
+    final settings = context.watch<SettingsService>();
+    final icon = settings.audioEnabled ? Icons.volume_up : Icons.volume_off;
+    final color = settings.audioEnabled ? Colors.blueAccent : Colors.blueGrey;
     // El propio contenedor de texto
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -91,7 +96,7 @@ class ChatBubble extends StatelessWidget {
         // Icono de audio a la derecha (solo para respuestas)
         if (!isUser && onPlay != null) ...[
           const SizedBox(width: 8),
-          BubbleIconButton(icon: Icons.volume_up, onPressed: onPlay!),
+          BubbleIconButton(icon: icon, onPressed: onPlay!, color: color),
         ],
       ],
     );

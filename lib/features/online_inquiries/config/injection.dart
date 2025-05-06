@@ -11,8 +11,11 @@ import '../domain/repositories/repository.dart';
 import '../domain/use_cases/use_case.dart';
 import '../presentation/providers/provider.dart';
 
+import '../../../core/configs/settings_service.dart';
+import '../../../shared/utils/tts_service.dart';
+
 // Registra las dependencias del feature "Query Chat".
-void registerQueryChatDependencies(GetIt instance, String baseUrl) {
+void registerOnlineInquiriesDependencies(GetIt instance, String baseUrl) {
   // Data Layer
   instance.registerLazySingleton<IOnlineInquiriesRemoteDataSource>(
     () => OnlineInquiriesRemoteDataSource(baseUrl: baseUrl),
@@ -34,6 +37,10 @@ void registerQueryChatDependencies(GetIt instance, String baseUrl) {
 
   // Provider Layer
   instance.registerFactory<IOnlineInquiriesProviderContract>(
-    () => OnlineInquiriesProvider(useCase: instance<IOnlineInquiriesUseCase>()),
+    () => OnlineInquiriesProvider(
+      useCase: instance<IOnlineInquiriesUseCase>(),
+      ttsService: instance<TtsService>(),
+      settingsService: instance<SettingsService>(),
+    ),
   );
 }

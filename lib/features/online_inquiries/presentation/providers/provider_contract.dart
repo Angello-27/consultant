@@ -5,12 +5,18 @@ import '../../domain/entities/chat_interaction.dart';
 
 // La abstracción que tu UI va a consumir extiende ChangeNotifier para poder usarla.
 abstract class IOnlineInquiriesProviderContract extends ChangeNotifier {
-  /// Historial completo de interacciones (pregunta + respuesta o error).
+  // Historial completo de interacciones (pregunta + respuesta o error).
   List<ChatInteraction> get history;
 
-  /// Indica si hay una petición en curso.
+  // Indica si hay una petición en curso.
   bool get isLoading;
 
-  /// Envía una nueva pregunta y agrega la interacción al historial.
+  // Estado actual de la preferencia de audio.
+  bool get audioEnabled;
+
+  // Envía una nueva pregunta y agrega la interacción al historial.
   Future<void> send(String query);
+
+  // Alterna entre reproducir y detener el audio, y ajusta la preferencia.
+  void toggleAudio(String text);
 }

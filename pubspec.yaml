@@ -12,7 +12,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter # Proporciona soporte de localización para la app (traducciones, formatos regionales, etc.).
 
-  # Paquete de íconos estilo Cupertino, ideal para diseños en iOS.
+  # Librería sobre paquete de íconos estilo Cupertino, ideal para diseños en iOS.
   cupertino_icons: ^1.0.8
 
   # Librería basada en Future para realizar peticiones HTTP de forma composable en múltiples plataformas (móvil, escritorio y navegador).
@@ -28,14 +28,14 @@ dependencies:
   # soportando múltiples plataformas (Android, iOS, web, Windows y macOS).
   flutter_tts: ^4.2.2
 
-  # Un envoltorio para InheritedWidget que facilita su uso y reutilización.
+  # Librería que ayuda el envoltorio para InheritedWidget que facilita su uso y reutilización.
   # Permite una asignación y disposición simplificada de recursos, lazy-loading,
   # y reduce el código repetitivo al evitar tener que crear una clase InheritedWidget personalizada cada vez.
   # Además, mejora la escalabilidad al consumir estos InheritedWidgets mediante métodos como Provider.of, Consumer y Selector,
   # y es compatible con las herramientas de desarrollo de Flutter para visualizar el estado de la aplicación.
   provider: ^6.1.4
 
-  # Es Un localizador de servicios para Dart y Flutter que permite acceder a objetos (por ejemplo, clientes API, repositorios, BLoCs, etc.)
+  # Librería de localizador de servicios para Dart y Flutter que permite acceder a objetos (por ejemplo, clientes API, repositorios, BLoCs, etc.)
   # desde la UI sin depender del BuildContext.
   get_it: ^8.0.3
 
@@ -43,9 +43,12 @@ dependencies:
   # Permite solicitar permisos, verificar su estado y abrir la configuración de la app para que los usuarios administren dichos permisos.
   permission_handler: ^12.0.0+1
 
-  # Animaciones de carga: API sencilla con múltiples estilos disponibles,
+  # Librería para las animaciones de carga: API sencilla con múltiples estilos disponibles,
   # incluyendo `progressiveDots` que muestra puntos que se mueven secuencialmente.
   loading_animation_widget: ^1.3.0
+
+  # Librería de almacenamiento clave-valor simple multiplataforma
+  shared_preferences: ^2.5.3
 
 dev_dependencies:
   flutter_test:
