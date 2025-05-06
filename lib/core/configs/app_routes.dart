@@ -2,7 +2,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../constants/app_route_constants.dart';
-import '../../features/query_chat/presentation/pages/query_screen.dart';
+import '../../features/online_inquiries/presentation/pages/query_screen.dart';
 
 // Provee configuración de rutas: mapa de rutas e inicial.
 class AppRoutes {

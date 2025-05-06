@@ -2,7 +2,7 @@
 import 'package:get_it/get_it.dart';
 
 import 'app_network.dart';
-import '../../features/query_chat/config/injection.dart' as query_inject;
+import '../../features/online_inquiries/config/injection.dart' as query_inject;
 
 final instance = GetIt.instance;
 
