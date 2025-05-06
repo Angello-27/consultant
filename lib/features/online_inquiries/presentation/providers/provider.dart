@@ -3,26 +3,39 @@ import './provider_contract.dart';
 import '../../domain/use_cases/use_case_contract.dart';
 import '../../domain/entities/chat_interaction.dart';
 import '../../../../shared/utils/tts_service.dart';
+import '../../../../shared/utils/stt_service.dart';
 import '../../../../core/configs/settings_service.dart';
 
-// ChangeNotifier que implementa IOnlineInquiriesProviderContract.
+// Implementación de IOnlineInquiriesProviderContract,
+// maneja chat, reproducción de texto a voz y reconocimiento de voz.
 class OnlineInquiriesProvider extends IOnlineInquiriesProviderContract {
   final TtsService _ttsService;
+  final SttService _sttService;
   final SettingsService _settings;
   final IOnlineInquiriesUseCase _useCase;
 
   OnlineInquiriesProvider({
     required IOnlineInquiriesUseCase useCase,
     required TtsService ttsService,
+    required SttService sttService,
     required SettingsService settingsService,
   }) : _useCase = useCase,
        _ttsService = ttsService,
        _settings = settingsService,
+       _sttService = sttService,
        super(); // llama al constructor de ChangeNotifier
 
   bool _isLoading = false;
   @override
   bool get isLoading => _isLoading;
+
+  bool _isListening = false;
+  @override
+  bool get isListening => _isListening;
+
+  String _recognizedText = '';
+  @override
+  String get recognizedText => _recognizedText;
 
   @override
   bool get audioEnabled => _settings.audioEnabled;
@@ -31,7 +44,12 @@ class OnlineInquiriesProvider extends IOnlineInquiriesProviderContract {
   @override
   List<ChatInteraction> get history => List.unmodifiable(_history);
 
-  // Envía la consulta, actualiza el estado y desencadena TTS.
+  // Solicita permisos de micrófono e inicializa STT.
+  @override
+  Future<bool> initSpeech() async => await _sttService.init();
+
+  // Envía la consulta, actualiza el estado
+  // y reproduce audio automáticamente si está habilitado.
   @override
   Future<void> send(String query) async {
     if (query.trim().isEmpty) {
@@ -72,6 +90,7 @@ class OnlineInquiriesProvider extends IOnlineInquiriesProviderContract {
     }
   }
 
+  // Alterna reproducción de audio y actualiza preferencia.
   @override
   void toggleAudio(String text) {
     if (_settings.audioEnabled) {
@@ -83,6 +102,31 @@ class OnlineInquiriesProvider extends IOnlineInquiriesProviderContract {
     }
     // Cambiamos la preferencia y notificamos
     _settings.toggleAudioEnabled();
+    notifyListeners();
+  }
+
+  // Inicia la escucha y actualiza recognizedText en cada resultado.
+  @override
+  Future<void> startListening() async {
+    final ready = await initSpeech();
+    if (!ready) return;
+    _recognizedText = '';
+    _isListening = true;
+    notifyListeners();
+
+    await _sttService.listen(
+      onResult: (text) {
+        _recognizedText = text;
+        notifyListeners();
+      },
+    );
+  }
+
+  // Detiene la escucha.
+  @override
+  Future<void> stopListening() async {
+    await _sttService.stop();
+    _isListening = false;
     notifyListeners();
   }
 }

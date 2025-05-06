@@ -22,8 +22,8 @@ class ReferencesModal {
                 return ListTile(
                   title: Text(doc.metadata.source),
                   subtitle: Text(
-                    doc.pageContent.length > 100
-                        ? '${doc.pageContent.substring(0, 100)}...'
+                    doc.pageContent.length > 300
+                        ? '${doc.pageContent.substring(0, 300)}...'
                         : doc.pageContent,
                   ),
                 );

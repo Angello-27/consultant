@@ -13,6 +13,7 @@ import '../presentation/providers/provider.dart';
 
 import '../../../core/configs/settings_service.dart';
 import '../../../shared/utils/tts_service.dart';
+import '../../../shared/utils/stt_service.dart';
 
 // Registra las dependencias del feature "Query Chat".
 void registerOnlineInquiriesDependencies(GetIt instance, String baseUrl) {
@@ -40,6 +41,7 @@ void registerOnlineInquiriesDependencies(GetIt instance, String baseUrl) {
     () => OnlineInquiriesProvider(
       useCase: instance<IOnlineInquiriesUseCase>(),
       ttsService: instance<TtsService>(),
+      sttService: instance<SttService>(),
       settingsService: instance<SettingsService>(),
     ),
   );
