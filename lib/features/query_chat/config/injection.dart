@@ -7,8 +7,10 @@ import '../data/datasources/query_remote_data_source.dart';
 import '../domain/repositories/query_repository.dart';
 import '../domain/use_cases/query_use_case.dart';
 
+import '../data/datasources/query_remote_data_source_impl.dart';
 import '../presentation/providers/query_provider.dart';
 import '../domain/repositories/query_repository_impl.dart';
+import '../domain/use_cases/query_use_case_impl.dart';
 
 // Registra las dependencias del feature "Query Chat".
 void registerQueryChatDependencies(GetIt instance, String baseUrl) {

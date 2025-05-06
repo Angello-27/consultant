@@ -1,7 +1,7 @@
 // lib/presentation/screens/query_screen.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/query_provider.dart';
+import '../providers/query_provider_old.dart';
 import '../widgets/organisms/conversation_view.dart';
 import '../widgets/organisms/input_area.dart';
 import '../../../../core/constants/app_text_constants.dart';

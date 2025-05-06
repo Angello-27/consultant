@@ -10,6 +10,7 @@ class QueryRepositoryImpl implements IQueryRepository {
   QueryRepositoryImpl({required this.remote});
 
   @override
-  Future<QueryResponse> fetchResponse(String query) =>
-      remote.getQueryResponse(query).then((model) => model.toEntity());
+  Future<QueryResponse> fetchResponse(String query) => remote
+      .getQueryResponse(query)
+      .then((model) => QueryResponse(answer: "answer", context: []));
 }
