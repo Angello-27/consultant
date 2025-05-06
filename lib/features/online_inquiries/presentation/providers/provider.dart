@@ -46,7 +46,18 @@ class OnlineInquiriesProvider extends IOnlineInquiriesProviderContract {
 
   // Solicita permisos de micrófono e inicializa STT.
   @override
-  Future<bool> initSpeech() async => await _sttService.init();
+  Future<bool> initSpeech() async {
+    // Pasa tu handler al inicializar STT
+    return await _sttService.init(onStatus: _handleSttStatus);
+  }
+
+  // Manejador interno de estado STT
+  void _handleSttStatus(String status) {
+    final wasListening = _isListening;
+    _isListening = (status == 'listening');
+    // Solo notifica si realmente cambió
+    if (_isListening != wasListening) notifyListeners();
+  }
 
   // Envía la consulta, actualiza el estado
   // y reproduce audio automáticamente si está habilitado.
@@ -79,6 +90,8 @@ class OnlineInquiriesProvider extends IOnlineInquiriesProviderContract {
       );
     } finally {
       _isLoading = false;
+      _isListening = false;
+      _recognizedText = ''; // limpia el texto interno
       notifyListeners();
     }
   }
@@ -111,6 +124,7 @@ class OnlineInquiriesProvider extends IOnlineInquiriesProviderContract {
     final ready = await initSpeech();
     if (!ready) return;
     _recognizedText = '';
+    // Avisamos ya que el callback podría no dispararse de inmediato
     _isListening = true;
     notifyListeners();
 
@@ -126,6 +140,8 @@ class OnlineInquiriesProvider extends IOnlineInquiriesProviderContract {
   @override
   Future<void> stopListening() async {
     await _sttService.stop();
+    // El callback `_handleSttStatus` también recibirá el status='notListening'
+    // pero forzamos aquí el cambio inmediato
     _isListening = false;
     notifyListeners();
   }
