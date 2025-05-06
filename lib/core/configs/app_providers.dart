@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'dependency_injections.dart' as inject;
 import 'package:provider/single_child_widget.dart';
 
+import './network_config.dart';
 import './settings_service.dart';
 import '../../shared/utils/stt_service.dart';
 import '../../features/online_inquiries/presentation/providers/provider_contract.dart';
@@ -14,6 +15,9 @@ class AppProviders {
     Provider<SttService>(
       create: (_) => inject.instance<SttService>(),
       lazy: false,
+    ),
+    ChangeNotifierProvider<NetworkConfig>(
+      create: (_) => inject.instance<NetworkConfig>(),
     ),
     ChangeNotifierProvider<SettingsService>(
       create: (_) {
