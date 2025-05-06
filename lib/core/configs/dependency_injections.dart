@@ -1,37 +1,16 @@
+// lib/core/configs/dependency_injections.dart
 import 'package:get_it/get_it.dart';
-import '../../data/datasources/query_api_client.dart';
-import '../../data/repositories/query_repository.dart';
-import '../../features/domain/use_cases/query_use_case.dart';
-import '../../features/presentation/providers/query_provider.dart';
-import 'app_config.dart';
-import '../../core/utils/tts_service.dart'; // Asegúrate de que la ruta sea la correcta
+
+import 'app_network.dart';
+import '../../features/query_chat/config/injection.dart' as query_inject;
 
 final instance = GetIt.instance;
 
+/// Registra todas las dependencias de la aplicación divididas por feature.
 void setupDependencies() {
-  // Data Layer
-  instance.registerLazySingleton(
-    () => QueryApiClient(baseUrl: AppConfig.serverUrl),
-  );
-  instance.registerLazySingleton(
-    () => QueryRepository(apiClient: instance<QueryApiClient>()),
-  );
+  // Url del Servidor
+  String baseUrl = AppNetwork.serverUrl;
 
-  // Domain Layer
-  instance.registerLazySingleton(
-    () => QueryUseCase(repository: instance<QueryRepository>()),
-  );
-
-  // Core / Utilidades: Inyectar el TtsService e inicializarlo
-  instance.registerLazySingleton<TtsService>(() => TtsService()..initTts());
-
-  // Presentation Layer
-  // Registro del QueryProvider para ser utilizado por Provider en la UI,
-  // inyectando tanto el QueryUseCase como el TtsService.
-  instance.registerFactory(
-    () => QueryProvider(
-      queryUseCase: instance<QueryUseCase>(),
-      ttsService: instance<TtsService>(),
-    ),
-  );
+  // Feature: Query Chat
+  query_inject.registerQueryChatDependencies(instance, baseUrl);
 }

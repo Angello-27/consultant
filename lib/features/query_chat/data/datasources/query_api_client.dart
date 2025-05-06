@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../../features/domain/entities/query_response.dart';
+import '../../domain/entities/query_response.dart';
 
 class QueryApiClient {
   // La URL del servidor se define en core/config.dart

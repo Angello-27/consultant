@@ -1,9 +1,9 @@
 // ignore_for_file: library_private_types_in_public_api
 
-import 'package:consultant/features/domain/entities/document.dart';
+import 'package:consultant/features/query_chat/domain/entities/document.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../../core/utils/tts_service.dart';
+import '../../../../../shared/utils/tts_service.dart';
 
 class ChatBubble extends StatefulWidget {
   final String message;

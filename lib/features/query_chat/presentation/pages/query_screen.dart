@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../providers/query_provider.dart';
 import '../widgets/organisms/conversation_view.dart';
 import '../widgets/organisms/input_area.dart';
-import '../../../core/constants/app_text_constants.dart';
+import '../../../../core/constants/app_text_constants.dart';
 import '../widgets/atoms/speech_input_widget.dart';
 
 class QueryScreen extends StatelessWidget {

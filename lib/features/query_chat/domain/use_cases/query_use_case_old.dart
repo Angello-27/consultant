@@ -1,4 +1,4 @@
-import '../../../data/repositories/query_repository.dart';
+import '../../data/repositories/query_repository.dart';
 import '../entities/query_response.dart';
 
 class QueryUseCase {

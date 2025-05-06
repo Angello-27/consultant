@@ -1,5 +1,5 @@
-import '../../data/datasources/query_api_client.dart';
-import '../../features/domain/entities/query_response.dart';
+import '../datasources/query_api_client.dart';
+import '../../domain/entities/query_response.dart';
 
 class QueryRepository {
   final QueryApiClient apiClient;

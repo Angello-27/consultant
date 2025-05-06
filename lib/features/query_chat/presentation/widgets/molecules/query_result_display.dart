@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../domain/entities/query_response.dart';
-import '../../../../core/constants/app_text_constants.dart';
+import '../../../../../core/constants/app_text_constants.dart';
 
 class QueryResultDisplay extends StatelessWidget {
   final QueryResponse? response;

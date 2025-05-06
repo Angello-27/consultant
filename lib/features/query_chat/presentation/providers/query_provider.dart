@@ -1,6 +1,6 @@
-import 'package:consultant/core/utils/tts_service.dart';
+import 'package:consultant/shared/utils/tts_service.dart';
 import 'package:flutter/material.dart';
-import '../../domain/use_cases/query_use_case.dart';
+import '../../domain/use_cases/query_use_case_old.dart';
 import '../../domain/entities/query_response.dart';
 import '../../domain/entities/message.dart';
 

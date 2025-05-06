@@ -1,7 +1,7 @@
 // lib/presentation/widgets/organisms/conversation_view.dart
 import 'package:flutter/material.dart';
-import 'package:consultant/features/domain/entities/message.dart';
-import 'package:consultant/features/domain/entities/document.dart';
+import 'package:consultant/features/query_chat/domain/entities/message.dart';
+import 'package:consultant/features/query_chat/domain/entities/document.dart';
 import '../atoms/chat_bubble.dart';
 import '../atoms/loading_indicator.dart';
 
