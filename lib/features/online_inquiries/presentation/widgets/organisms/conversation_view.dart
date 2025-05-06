@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+import '../atoms/loading_indicator.dart';
 import '../molecules/chat_bubble.dart';
 import '../molecules/references_modal.dart';
-import '../atoms/bubble_icon_button.dart';
 import '../../../domain/entities/chat_interaction.dart';
 import '../../../presentation/providers/provider_contract.dart';
 
@@ -47,34 +47,35 @@ class ConversationView extends StatelessWidget {
       return ChatBubble(text: interaction.error!, isUser: false, isError: true);
     }
 
+    // Si la respuesta aún no llegó, mostramos progressiveDots:
+    if (interaction.response == null) {
+      return LoadingIndicator();
+    }
+
     // Respuesta válida
     final response = interaction.response!;
 
     // Burbujas de respuesta con copy y referencias dentro,
     // y un botón de audio fuera a la derecha.
-    final bubble = ChatBubble(
+    return ChatBubble(
       text: response.answer,
       isUser: false,
+      // Icono de audio (aparecerá a la derecha del texto).
+      onPlay: () {
+        /*final tts = Provider.of<TtsService>(context, listen: false);
+        tts.speak(response.answer);*/
+      },
+      // Icono de copiar (aparecerá en la fila de abajo).
       onCopy: () {
         Clipboard.setData(ClipboardData(text: response.answer));
       },
+      // Icono de referencias (aparecerá en la fila de abajo).
       onViewReferences:
           response.context.isNotEmpty
               ? (refs) => ReferencesModal.show(context, refs)
               : null,
-    );
-
-    final audioButton = BubbleIconButton(
-      icon: Icons.volume_up,
-      onPressed: () {
-        /*final tts = Provider.of<TtsService>(context, listen: false);
-        tts.speak(response.answer);*/
-      },
-    );
-
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [Expanded(child: bubble), audioButton],
+      // Datos para la referencia
+      references: response.context,
     );
   }
 }

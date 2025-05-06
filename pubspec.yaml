@@ -43,6 +43,10 @@ dependencies:
   # Permite solicitar permisos, verificar su estado y abrir la configuración de la app para que los usuarios administren dichos permisos.
   permission_handler: ^12.0.0+1
 
+  # Animaciones de carga: API sencilla con múltiples estilos disponibles,
+  # incluyendo `progressiveDots` que muestra puntos que se mueven secuencialmente.
+  loading_animation_widget: ^1.3.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter # Framework de pruebas para Flutter, usado para escribir y ejecutar tests de la app.
